@@ -91,7 +91,7 @@ const Pricing = () => {
                         {v.packageDataField.verDailyUseNum[1].dailyUseNum}  demo agents a day using GPT-4</div>
                       <div className={textClass}>
                         <Image src="/duihao.svg" width="16" height="16" alt="Reworkd AI" />
-                        {v.packageDataField.loopNum} Loops per Agent</div>
+                        {v.packageDataField.loopNum} Loops per Knowamz</div>
                       <div className={textClass}>
                         <Image src="/duihao.svg" width="16" height="16" alt="Reworkd AI" />
                         {v.packageDataField.maxTokenNum}  maximum tokens</div>

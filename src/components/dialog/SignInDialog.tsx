@@ -23,7 +23,7 @@ export const SignInDialog = ({ show, close }: SignInDialogProps) => {
         <a className="link" onClick={() => void signIn()}>
           sign in
         </a>{" "}
-        to deploy an Agent! 🤖
+        to deploy an Knowamz! 🤖
       </p>
     </Dialog>
   );

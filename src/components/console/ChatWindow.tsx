@@ -94,7 +94,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
         <div className="mt-auto flex flex-row gap-2 p-2 pt-0 sm:p-4">
           <Input
             small
-            placeholder="Chat with your agent..."
+            placeholder="Chat with your Knowamz..."
             value={chatControls.value}
             onChange={(e) => chatControls?.onChange(e.target.value)}
           />

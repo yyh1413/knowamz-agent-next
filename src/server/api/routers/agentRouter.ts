@@ -35,7 +35,7 @@ export const agentRouter = createTRPCRouter({
       },
     });
 
-    if (!agent) throw new Error("Agent not found");
+    if (!agent) throw new Error("Knowamz not found");
 
     const all = input.tasks.map((e, i) => {
       return prisma.agentTask.create({

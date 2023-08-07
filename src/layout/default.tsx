@@ -10,7 +10,7 @@ interface LayoutProps {
 }
 
 const DefaultLayout = (props: LayoutProps) => {
-  const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
+  const description = "Assemble, configure, and deploy autonomous AI Knowamz in your browser.";
 
   return (
     <div

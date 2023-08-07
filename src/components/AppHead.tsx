@@ -2,7 +2,7 @@ import Head from "next/head";
 
 const AppHead = () => {
   // Do not translate. Head attributes won't have access to i18n.
-  const description = "Assemble, configure, and deploy autonomous AI Agents in your browser.";
+  const description = "Assemble, configure, and deploy autonomous AI Knowamz in your browser.";
 
   return (
     <Head>

@@ -4,7 +4,7 @@ import { useTaskStore } from "../../stores/taskStore";
 import { useAgentStore } from "../../stores";
 
 /*
- * Abstraction over model used by Autonomous Agent to encapsulate the data required for a given run
+ * Abstraction over model used by Autonomous Knowamz to encapsulate the data required for a given run
  */
 export interface AgentRunModel {
   getId(): string;

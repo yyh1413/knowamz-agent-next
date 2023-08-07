@@ -79,7 +79,6 @@ export const options = (
       //   return session;
       // },
       signIn({ user }) {
-        console.log("useruser---", user);
         if (user) {
           // const session = await adapter.createSession({
           //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

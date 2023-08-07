@@ -55,7 +55,7 @@ const Footer = (props: Props) => {
             href="https://www.ycombinator.com/companies/reworkd/jobs"
             className="hidden sm:flex"
           >
-            {"Interested in AI Agents? We're Hiring!"}
+            {"Interested in AI Knowamz? We're Hiring!"}
           </BannerBadge>
           <span className="w-full text-xs text-gray-400 sm:text-left">
             &#169;2023 Reworkd AI, Inc.

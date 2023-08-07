@@ -17,26 +17,24 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [t] = useTranslation("drawer");
-  // console.log(session, status);
 
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
     enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
 
-  console.log(status === "authenticated", !isLoading, userAgents.length === 0, t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST"));
 
   return (
     <Sidebar show={show} setShow={setShow} side="left">
       <div className="flex flex-row items-center justify-between">
         <Image
-          src="logos/dark-default-solid.svg"
+          src="/logos/dark-default-solid.svg"
           width="25"
           height="25"
           alt="Reworkd AI"
           className="ml-2 invert dark:invert-0"
         />
-        <h1 className="text-color-primary font-mono font-extrabold">My Agents</h1>
+        <h1 className="text-color-primary font-mono font-extrabold">My Knowamz</h1>
         <button
           className="neutral-button-primary rounded-md border-none transition-all"
           onClick={() => setShow(!show)}
@@ -101,7 +99,7 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
             );
           })}
         </ul>
-        <li className="mb-2">
+        {/* <li className="mb-2">
           <div className="flex items-center justify-center gap-3">
             {SOCIAL_LINKS.map((link) => (
               <LinkIconItem
@@ -118,7 +116,7 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
               </LinkIconItem>
             ))}
           </div>
-        </li>
+        </li> */}
         <li>
           <FadingHr />
           <AuthItem session={session} signOut={signOut} signIn={signIn} />

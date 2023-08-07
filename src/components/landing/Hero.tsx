@@ -33,7 +33,7 @@ const Hero = () => {
               )}
             >
               <div>
-                AI Agents at
+                AI Knowamz at
                 <br />
                 Your Fingertips.
               </div>
@@ -71,7 +71,7 @@ const Hero = () => {
               }}
             >
               <>
-                <span>Explore AI Agents</span>
+                <span>Explore AI Knowamz</span>
                 <FaChevronRight size="12" />
               </>
             </TextButton>

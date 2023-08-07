@@ -60,7 +60,7 @@ export default function NavLayout({ children }: { children: ReactNode }) {
                       }}
                     >
                       <>
-                        <span>AI Agents</span>
+                        <span>AI Knowamz</span>
                         <FaChevronRight size="12" />
                       </>
                     </TextButton>

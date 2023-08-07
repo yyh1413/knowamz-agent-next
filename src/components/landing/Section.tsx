@@ -18,12 +18,12 @@ const Sections = () => {
       <Section
         className="col-span-1"
         title="Web Search"
-        subtitle="Empower Your Agents with Access to Real-Time Web Information"
+        subtitle="Empower Your Knowamz with Access to Real-Time Web Information"
       ></Section>
       <Section
         className="col-span-2"
-        title="Long Term Memory for Agents"
-        subtitle="Enhance Your Workflow with Agents Capable of Detailed Recall and Context Preservation"
+        title="Long Term Memory for Knowamz"
+        subtitle="Enhance Your Workflow with Knowamz Capable of Detailed Recall and Context Preservation"
       ></Section>
       <Section
         className="col-span-2"

@@ -29,7 +29,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
   // {
   //   name: "Flows",
   //   href: "/workflow",
-  //   icon: FaWater,
+  //   icon: FaQuestion,
   //   badge: "Alpha",
   //   className: "transition-transform group-hover:scale-110",
   // },
@@ -40,10 +40,16 @@ export const PAGE_LINKS: LinkMetadata[] = [
     badge: "New",
     className: "transition-transform group-hover:scale-110",
   },
+  // {
+  //   name: "Help",
+  //   href: "https://docs.reworkd.ai/",
+  //   icon: FaQuestion,
+  //   className: "group-hover:text-red-500",
+  // },
   {
-    name: "Help",
-    href: "https://docs.reworkd.ai/",
-    icon: FaQuestion,
+    name: "VIP Package",
+    href: "/pricing",
+    icon: FaVimeoV,
     className: "group-hover:text-red-500",
   },
   {
@@ -52,12 +58,7 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaCog,
     className: "transition-transform group-hover:rotate-90",
   },
-  {
-    name: "VIP Package",
-    href: "/pricing",
-    icon: FaVimeoV,
-    className: "group-hover:text-red-500",
-  },
+
 ];
 
 export const SOCIAL_LINKS: LinkMetadata[] = [

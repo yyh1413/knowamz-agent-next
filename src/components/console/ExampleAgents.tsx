@@ -15,7 +15,7 @@ const ExampleAgents = ({ setAgentRun }: ExampleAgentsProps) => {
           message={{
             type: MESSAGE_TYPE_SYSTEM,
             value:
-              "👉 Create an agent by adding a name / goal, and hitting deploy! Try our examples below!",
+              "👉 Create an Knowamz by adding a name / goal, and hitting deploy! Try our examples below!",
           }}
         />
       </FadeIn>
