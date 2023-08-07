@@ -51,6 +51,12 @@ export const PAGE_LINKS: LinkMetadata[] = [
     icon: FaCog,
     className: "transition-transform group-hover:rotate-90",
   },
+  {
+    name: "VIP Package",
+    href: "/pricing",
+    icon: FaCog,
+    className: "transition-transform group-hover:rotate-90",
+  },
 ];
 
 export const SOCIAL_LINKS: LinkMetadata[] = [

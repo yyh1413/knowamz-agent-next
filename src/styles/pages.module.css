@@ -1,0 +1,30 @@
+.f_c_b {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.f_c_f_r {
+  display: flex;
+  align-items: center;
+  flex-flow: row-reverse;
+}
+
+.registration {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+}
+
+.code {
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  font-size: 22px;
+  color: #666;
+}
+.article {
+  white-space: pre-line;
+  line-height: 15px;
+}
+

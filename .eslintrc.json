@@ -1,13 +1,8 @@
 {
   "overrides": [
     {
-      "extends": [
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-      ],
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "extends": ["plugin:@typescript-eslint/recommended-requiring-type-checking"],
+      "files": ["*.ts", "*.tsx"],
       "parserOptions": {
         "project": "tsconfig.json"
       }
@@ -17,13 +12,8 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended"
-  ],
+  "plugins": ["@typescript-eslint"],
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-unused-vars": "off",
@@ -39,13 +29,12 @@
         "paths": [
           {
             "name": "react-i18next",
-            "importNames": [
-              "useTranslation"
-            ],
+            "importNames": ["useTranslation"],
             "message": "Import useTranslation from next-i18next instead."
           }
         ]
       }
-    ]
+    ],
+    "@typescript-eslint/no-explicit-any": "off", // 允许使用 any
   }
 }

@@ -17,11 +17,14 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [t] = useTranslation("drawer");
+  // console.log(session, status);
 
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
     enabled: status === "authenticated",
   });
   const userAgents = data ?? [];
+
+  console.log(status === "authenticated", !isLoading, userAgents.length === 0, t("NEED_TO_SIGN_IN_AND_CREATE_AGENT_FIRST"));
 
   return (
     <Sidebar show={show} setShow={setShow} side="left">

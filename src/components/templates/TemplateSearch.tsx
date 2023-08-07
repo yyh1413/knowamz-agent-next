@@ -1,12 +1,17 @@
 import type { ChangeEvent, FC } from "react";
+import { useState } from "react";
 import React from "react";
+import { Form, Input, message, Modal, Select } from 'antd';
 
 interface SearchBarProps {
   setSearchQuery: (query: string) => void;
   setCategory: (category: string) => void;
+  setRow: (category: any) => void;
+  showModal: () => void;
+  searchType: any[]
 }
+const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory, searchType, showModal, setRow }) => {
 
-const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory }) => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
@@ -26,7 +31,11 @@ const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory }) => {
           aria-describedby="button-addon2"
           onChange={handleSearchChange}
         />
-        
+
+      </div>
+      <div className="block  rounded-md border border-white/20 bg-zinc-900 px-2 py-1 text-white shadow-sm focus:border-white focus:outline-none focus:ring-white sm:text-sm">
+        <button onClick={() => { showModal(); setRow(undefined) }}>Add</button>
+
       </div>
       <div className="w-full sm:w-auto">
         <select
@@ -35,13 +44,12 @@ const SearchBar: FC<SearchBarProps> = ({ setSearchQuery, setCategory }) => {
           className="block w-full rounded-md border border-white/20 bg-zinc-900 px-2 py-1 text-white shadow-sm focus:border-white focus:outline-none focus:ring-white sm:text-sm"
           onChange={handleCategoryChange}
         >
-          <option value="">All</option>
-          <option>Health and Fitness</option>
-          <option>Creative and social</option>
-          <option>Academics and Professional</option>
-          <option>Other</option>
+          <option value={''}>All</option>
+          {searchType.map(v => (<option value={v} key={v}>{v}</option>))}
+
         </select>
       </div>
+
     </div>
   );
 };

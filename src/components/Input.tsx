@@ -1,10 +1,12 @@
 import React from "react";
 import Label from "./Label";
+import Code from "./Code";
 import clsx from "clsx";
 import type { toolTipProperties } from "../types";
 
 interface InputProps {
   small?: boolean; // Will lower padding and font size. Currently only works for the default input
+  code?: boolean;
   left?: React.ReactNode;
   value: string | number | undefined;
   onChange: (
@@ -13,7 +15,9 @@ interface InputProps {
   placeholder?: string;
   disabled?: boolean;
   setValue?: (value: string) => void;
+  sendVerificationCode?: (sendCode: () => void) => void
   type?: string;
+  maxLength?: number;
   subType?: string;
   attributes?: { [key: string]: string | number | string[] }; // attributes specific to input type
   toolTipProperties?: toolTipProperties;
@@ -25,6 +29,7 @@ interface InputProps {
 
 const Input = (props: InputProps) => {
   const {
+    maxLength,
     small,
     placeholder,
     left,
@@ -37,6 +42,7 @@ const Input = (props: InputProps) => {
     inputRef,
     toolTipProperties,
     onKeyDown,
+    code
   } = props;
   const [isHidden, setIsHidden] = React.useState(false);
 
@@ -76,6 +82,7 @@ const Input = (props: InputProps) => {
         placeholder={placeholder}
         type={type}
         value={value}
+        maxLength={maxLength}
         onChange={onChange}
         disabled={disabled}
         onKeyDown={onKeyDown}
@@ -88,11 +95,12 @@ const Input = (props: InputProps) => {
     <div
       className={clsx(
         "items-left z-5 text-color-primary flex h-fit w-full flex-col rounded-xl font-mono text-lg md:flex-row md:items-center",
-        "md:flex-row md:items-center"
+        "md:flex-row md:items-center relative"
       )}
     >
       {left && <Label left={left} type={type} toolTipProperties={toolTipProperties} />}
       {inputElement}
+      {code && props.sendVerificationCode ? <Code sendVerificationCode={props.sendVerificationCode} /> : undefined}
     </div>
   );
 };

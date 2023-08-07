@@ -211,5 +211,7 @@ export interface TemplateModel {
   category: string;
   description: string;
   promptTemplate: string;
+  templateType?: string;
+  id?: string;
   placeholder: string;
 }

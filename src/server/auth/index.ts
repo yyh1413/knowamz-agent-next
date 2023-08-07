@@ -16,12 +16,18 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
     async session({ session, user }) {
       if (session.user) session.user.id = user.id;
 
+      // console.log(" session-------- ", session, user);
+
+      session.user.id = user.id;
+      session.user.name = user.name;
+      session.user.email = user.email;
       session.accessToken = (
         await prisma.session.findFirstOrThrow({
           where: { userId: user.id },
           orderBy: { expires: "desc" },
         })
       ).sessionToken;
+      // console.log(" session-------- ", session);
 
       return session;
     },
@@ -31,10 +37,11 @@ export const authOptions = (
   req: NextApiRequest | IncomingMessage,
   res: NextApiResponse | ServerResponse
 ) => {
-  const options =
-    env.NEXT_PUBLIC_VERCEL_ENV === "development"
-      ? devOptions(commonOptions.adapter, req, res)
-      : prodOptions;
+  // const options =
+  //   env.NEXT_PUBLIC_VERCEL_ENV === "development"
+  //     ? devOptions(commonOptions.adapter, req, res)
+  //     : prodOptions;
+  const options = devOptions(commonOptions.adapter, req, res);
 
   return merge(commonOptions, options) as AuthOptions;
 };

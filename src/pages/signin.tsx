@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import type { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 import type { ClientSafeProvider } from "next-auth/react";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
@@ -16,12 +16,18 @@ import { useRouter } from "next/router";
 import Input from "../components/Input";
 import type { LiteralUnion } from "next-auth/react/types";
 import type { BuiltInProviderType } from "next-auth/providers";
-import { Button, Input as AInput } from 'antd';
+import styles from '../styles/pages.module.css';
+import Agreement from "../components/Agreement";
+import { Message } from "../components/message/Message";
+import { MESSAGE_TYPE_ERROR } from "../types/message";
+import { encryptPassword, passwordText, validatePassword } from '../utils/user';
+import { login, getUserInfo } from "../services/user";
 
-const { Search } = AInput;
+
 const SignIn = ({ providers }: { providers: Provider }) => {
   const { data: session } = useSession();
   const { push } = useRouter();
+  // console.log(globalThis);
 
   if (session) push("/").catch(console.error);
 
@@ -59,47 +65,114 @@ const SignIn = ({ providers }: { providers: Provider }) => {
 
           </FadeIn>
           <FadeIn duration={1.5} delay={0.4} initialY={50}>
-            {providers.credentials && <InsecureSignin />}
+            {/* {providers.credentials && <InsecureSignin />} */}
+            <InsecureSignin />
             {/* {details.map((detail) => ( */}
             {/* <ProviderSignInButton key={detail.id} detail={detail} /> */}
             {/* ))} */}
             <ProviderSignInButton />
+            <BottomBut />
           </FadeIn>
         </div>
       </div>
     </>
   );
 };
+const BottomBut = () => {
+  const { push } = useRouter();
 
+  return (
+    <>
+      <div className={clsx(styles.f_c_b, styles.registration)}>
+        <span onClick={() => {
+          push(`signup?type=0`).catch(console.error);
+        }}>sign up</span>
+        <span onClick={() => {
+          push("signup?type=1").catch(console.error);
+        }}>Forgot password</span>
+      </div>
+      <Agreement />
+    </>
+  )
+
+}
 const InsecureSignin = () => {
-  const [usernameValue, setUsernameValue] = useState("");
+  const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
+  const [validate, setValidate] = useState('');
+  const [disabled, setDisabled] = useState(true);
+  useEffect(() => {
+    setDisabled(!(!!email && !!password))
+  }, [email, password])
+
+  function handleValidate() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setValidate('Incorrect email format')
+      return false;
+    }
+    if (!validatePassword(password)) {
+      setValidate(passwordText)
+      return false;
+    }
+    return true;
+  }
+  async function handleSignIn() {
+    // if (!handleValidate()) return;
+    const param = { name: email, password: encryptPassword(password) }
+    const res = await login(param);
+    if (res.code === 200) {
+      const info = await getUserInfo((res.data as string));
+
+      if (info.code === 200) {
+        const infop = {
+          email: info.data?.email,
+          name: info.data?.name,
+          id: info.data?.id,
+        }
+        localStorage.setItem("next-auth.session-token", res.data);
+
+        signIn("credentials", { callbackUrl: "/", ...infop, data: res.data }).catch(console.error);
+      }
+    }
+    setValidate(res.msg)
+    return;
+  }
   return (
     <div>
+      <FadeIn delay={0.8} duration={0.5}>
+        {!!validate && <Message
+          message={{
+            type: MESSAGE_TYPE_ERROR,
+            value:
+              validate,
+          }}
+        />}
+      </FadeIn>
+      <div className="mb-4"></div>
       <Input
-        value={usernameValue}
-        onChange={(e) => setUsernameValue(e.target.value)}
-        placeholder="Please enter your email address"
+        left='email'
+        value={email}
+        onChange={(e) => setemail(e.target.value)}
+        // placeholder="Please enter your email"
         type="text"
       />
       <div className="mb-4"></div>
       <Input
-        value={usernameValue}
+        left='password'
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Please enter the password"
+        // placeholder="Please enter the password"
         type="password"
       />
       <button
-        style={{ 'width': 400 }}
-        onClick={() => {
-          if (!usernameValue && password) return;
-
-          signIn("credentials", { callbackUrl: "/", name: usernameValue }).catch(console.error);
-        }}
+        disabled={disabled}
+        style={{ 'width': 540 }}
+        onClick={() => handleSignIn()}
         className={clsx(
           "mb-4 mt-4 flex items-center rounded-md bg-white px-10 py-3 text-sm font-semibold text-black sm:text-base",
           "transition-colors duration-300 hover:bg-gray-200  justify-center",
-          !usernameValue && "cursor-not-allowed"
+          disabled && "cursor-not-allowed"
         )}
       >
         Sign in
@@ -138,8 +211,7 @@ const ProviderSignInButton = () => {
   const detail = providerButtonDetails.google
   return (
     <button
-      style={{ 'width': 400 }}
-
+      style={{ 'width': 540 }}
       onClick={() => {
         signIn(detail.id, { callbackUrl: "/" }).catch(console.error);
       }}
