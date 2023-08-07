@@ -4,7 +4,7 @@ import Combo from "../ui/combox";
 import Input from "../ui/input";
 import type { Language } from "../utils/languages";
 import { languages } from "../utils/languages";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
@@ -26,12 +26,22 @@ import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
 import Button from "../ui/button";
 import clsx from "clsx";
+import { saveSetting, getsetting, getUserInfo } from "../services/user";
+import { message } from "antd";
+import { handler } from "tailwindcss-radix";
+import { debounce, result } from 'lodash';
 
 const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
   const { session } = useAuth({ protectedRoute: true });
   const { models, getModel } = useModels();
+  const [temperature, settemperature] = useState(0);
+  const [loop, setLoop] = useState(0);
+  const [maxloop, setMaxLoop] = useState(0);
+  const [useinfo, setUseinfo] = useState<any>();
+  const [version, setVersion] = useState();
+  const didMountRef = useRef(false);
 
   const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
 
@@ -64,6 +74,42 @@ const SettingsPage = () => {
     updateSettings("customModelName", model.name as GPTModelNames);
   };
 
+  async function init() {
+    const info = await getUserInfo();
+    if (info.code === 200) {
+      setUseinfo(info.data)
+    }
+    const res = await getsetting();
+    if (res.code === 200) {
+      settemperature(Number(res.data.temperature));
+      setLoop(res.data.loopNum);
+      setMaxLoop(res.data.maxloop);
+      setVersion(res.data.gptVersion);
+    } else {
+      message.error(res.msg)
+    }
+  }
+  useEffect(() => {
+    init();
+  }, [])
+
+
+  const handleSetLoop = useRef(debounce(async (l, t) => {
+    const res = await saveSetting(
+      {
+        "gptVersion": "3.5", //当前GPT版本，与循环次数二选一
+        "loopNum": l, //循环次数，与当前GPT版本二选一
+        "temperature": String(t)//温度，购买高级套餐才可修改
+      }
+    )
+
+  }, 1500))
+
+  useEffect(() => {
+    if (didMountRef.current) handleSetLoop.current(loop, useinfo?.vipName === 'Platinum' ? temperature : '');
+  }, [loop, temperature])
+
+
   return (
     <DashboardLayout>
       <div className="grid min-h-screen flex-grow place-items-center p-2 sm:p-10 lg:p-16">
@@ -83,7 +129,7 @@ const SettingsPage = () => {
                 items={languages}
                 icon={<FaGlobe />}
               />
-              <Input
+              {/* <Input
                 label="API Key"
                 name="api-key"
                 placeholder="sk..."
@@ -118,10 +164,10 @@ const SettingsPage = () => {
                     {isApiKeyValid === false && <FaExclamationCircle />}
                   </Button>
                 }
-              />
+              /> */}
             </div>
 
-            {!disableAdvancedSettings && (
+            {!disableAdvancedSettings && useinfo?.id && (
               <div className="mt-4 flex flex-col ">
                 <h1 className="text-color-primary pb-4 text-xl font-bold">Advanced Settings</h1>
                 <div className="flex flex-col gap-4">
@@ -133,14 +179,15 @@ const SettingsPage = () => {
                     items={models}
                     icon={<FaRobot />}
                   />
-                  <Input
+                  {useinfo?.vipName === 'Platinum' && <Input
                     label={t("TEMPERATURE")}
-                    value={settings.customTemperature}
+                    value={temperature}
                     name="temperature"
                     type="range"
-                    onChange={(e) =>
-                      updateSettings("customTemperature", parseFloat(e.target.value))
-                    }
+                    onChange={(e) => {
+                      didMountRef.current = true;
+                      settemperature(parseFloat(e.target.value));
+                    }}
                     attributes={{
                       min: 0,
                       max: 1,
@@ -149,23 +196,26 @@ const SettingsPage = () => {
                     helpText={t("HIGHER_VALUES_MAKE_OUTPUT_MORE_RANDOM")}
                     icon={<FaThermometerFull />}
                     disabled={disableAdvancedSettings}
-                  />
+                  />}
                   <Input
                     label={t("LOOP")}
-                    value={settings.customMaxLoops}
+                    value={loop}
                     name="loop"
                     type="range"
-                    onChange={(e) => updateSettings("customMaxLoops", parseFloat(e.target.value))}
+                    onChange={(e) => {
+                      didMountRef.current = true;
+                      setLoop(parseFloat(e.target.value));
+                    }}
                     attributes={{
                       min: 1,
-                      max: 25,
+                      max: maxloop,
                       step: 1,
                     }}
                     helpText={t("CONTROL_THE_MAXIMUM_NUM_OF_LOOPS")}
                     icon={<FaSyncAlt />}
                     disabled={disableAdvancedSettings}
                   />
-                  <Input
+                  {/* <Input
                     label={t("TOKENS")}
                     value={settings.maxTokens}
                     name="tokens"
@@ -179,7 +229,7 @@ const SettingsPage = () => {
                     helpText={t("CONTROL_MAXIMUM_OF_TOKENS_DESCRIPTION")}
                     icon={<FaCoins />}
                     disabled={disableAdvancedSettings}
-                  />
+                  /> */}
                 </div>
               </div>
             )}

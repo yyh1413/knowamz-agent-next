@@ -48,8 +48,16 @@ const deletetemplate = (id: any) => {
 const getlisttemplate = () => {
   return http.get<any[]>(`/api/agent/custom/template/list`);
 };
+const saveSetting = (param: any) => {
+  return http.post<any>(`/api/agent/setting/save`, param);
+};
+const getsetting = () => {
+  return http.get<any>(`api/agent/setting/info`);
+};
 
 export {
+  getsetting,
+  saveSetting,
   handlerlogout,
   savetemplate,
   updatetemplate,

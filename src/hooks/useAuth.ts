@@ -10,14 +10,23 @@ interface Auth {
   status: "authenticated" | "unauthenticated" | "loading";
   session: Session | null;
 }
-
+// const sessiontext: Session = {
+//   accessToken: "eyJhbGciOiJIUzUxMiJ9.eyJqd3RFeHBpcmVUaW1lIjoxNjkzOTgyOTgwOTYzLCJleHAiOjE2OTM5ODI5ODAsInVzZXJJZCI6IjMifQ.vkmXswVkMmIX3oazuClhj69tIMF1cRK2WFkfSYH2EOx5dTbhPzt9wl0W6lXI7nGnw9xryLeGkPGT0GYsYUEEWA",
+//   user: {
+//     id: "3",
+//     name: "yyh",
+//     email: "17645221413@163.com",
+//     image: "",
+//   },
+//   expires: ""
+// };
 export function useAuth({ protectedRoute } = { protectedRoute: false }): Auth {
   const { data: session, status } = useSession();
 
   useEffect(() => {
-    if (protectedRoute && status === "unauthenticated") {
-      handleSignIn().catch(console.error);
-    }
+    // if (protectedRoute && status === "unauthenticated") {
+    //   handleSignIn().catch(console.error);
+    // }
   }, [protectedRoute, status]);
 
   const handleSignIn = async () => {
@@ -33,7 +42,7 @@ export function useAuth({ protectedRoute } = { protectedRoute: false }): Auth {
   return {
     signIn: handleSignIn,
     signOut: handleSignOut,
-    status,
-    session,
+    status:'authenticated',
+    session:session,
   };
 }

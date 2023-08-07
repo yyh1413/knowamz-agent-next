@@ -11,7 +11,29 @@ import type { Adapter } from "next-auth/adapters";
 import { env } from "../../env/server.mjs";
 
 const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
-  adapter: PrismaAdapter(prisma),
+  adapter: {
+    ...PrismaAdapter(prisma),
+    // getSessionAndUser: async function (sessionToken) {
+    //   console.log("getSessionAndUser", 1111);
+
+    //   return new Promise((resolve) => {
+    //     resolve({
+    //       user: {
+    //         name: "yyh",
+    //         email: "173@qq.com",
+    //         emailVerified: new Date(),
+    //         image: "",
+    //         id: "clj53i9nu0000pe77ejofkzq9",
+    //       },
+    //       session: {
+    //         userId: "",
+    //         expires: new Date(),
+    //         sessionToken: "81a1832b-a75d-4491-aea4-ec8924d18ada",
+    //       },
+    //     });
+    //   });
+    // },
+  },
   callbacks: {
     async session({ session, user }) {
       if (session.user) session.user.id = user.id;

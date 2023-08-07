@@ -118,7 +118,7 @@ const InsecureSignin = () => {
     return true;
   }
   async function handleSignIn() {
-    // if (!handleValidate()) return;
+    if (!handleValidate()) return;
     const param = { name: email, password: encryptPassword(password) }
     const res = await login(param);
     if (res.code === 200) {

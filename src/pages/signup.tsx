@@ -144,8 +144,6 @@ const InsecureSignup = (props: { type: IText }) => {
       return;
     }
     let res: HttpResponse<any>;
-    console.log(name, email, password, code);
-
     if (props.type === '0') {
       res = await setHandleSignup({ name, email, password: encryptPassword(password), code })
     } else {
