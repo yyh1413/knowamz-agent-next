@@ -13,6 +13,9 @@ const setHandleSignup = (data: { [key: string]: any }) => {
 const login = (data: any) => {
   return http.post("/api/agent/account/login", data);
 };
+const handlerlogout = () => {
+  return http.get("/api/agent/account/logout");
+};
 const getUserInfo = (data?: string) => {
   return http.get<any>(
     "/api/agent/account/getUserInfo",
@@ -47,6 +50,7 @@ const getlisttemplate = () => {
 };
 
 export {
+  handlerlogout,
   savetemplate,
   updatetemplate,
   deletetemplate,

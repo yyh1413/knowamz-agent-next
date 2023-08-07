@@ -7,8 +7,8 @@ import { get_avatar } from "../../utils/user";
 import { FaEllipsisH, FaSignInAlt } from "react-icons/fa";
 import Dialog from "../../ui/dialog";
 import { ThemeMenu } from "../ThemeMenu";
-import { getUserInfo } from "../../services/user";
-import { Progress, Skeleton } from "antd";
+import { getUserInfo, handlerlogout } from "../../services/user";
+import { message, Progress } from "antd";
 
 const AuthItem: FC<{
   session: Session | null;
@@ -26,6 +26,8 @@ const AuthItem: FC<{
     const res = await getUserInfo();
     if (res.code === 200) {
       setInfo(res.data)
+    } else {
+      message.error(res.msg)
     }
     setloading(false)
 
@@ -35,6 +37,19 @@ const AuthItem: FC<{
       init();
     }
   }, [showDialog])
+  async function handlerSignout() {
+    const res = await handlerlogout();
+    if (res.code === 200) {
+      localStorage.removeItem('next-auth.session-token')
+      signOut()
+        .then(() => setShowDialog(false))
+        .catch(console.error)
+        .finally(console.log);
+    } else {
+      message.error(res.msg)
+    }
+
+  }
   return (
     <div className="flex items-center justify-between">
       <div
@@ -81,12 +96,7 @@ const AuthItem: FC<{
               <button
                 type="button"
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
-                onClick={() => {
-                  signOut()
-                    .then(() => setShowDialog(false))
-                    .catch(console.error)
-                    .finally(console.log);
-                }}
+                onClick={handlerSignout}
               >
                 Sign out
               </button>

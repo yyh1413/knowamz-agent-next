@@ -7,6 +7,7 @@ import {
   FaLinkedin,
   FaQuestion,
   FaTwitter,
+  FaVimeoV,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
 
@@ -54,8 +55,8 @@ export const PAGE_LINKS: LinkMetadata[] = [
   {
     name: "VIP Package",
     href: "/pricing",
-    icon: FaCog,
-    className: "transition-transform group-hover:rotate-90",
+    icon: FaVimeoV,
+    className: "group-hover:text-red-500",
   },
 ];
 
