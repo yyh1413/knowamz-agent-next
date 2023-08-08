@@ -1,7 +1,7 @@
 /* eslint-disable */
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from "axios";
-import { env } from "../env/client.mjs";
 import qs from "qs";
+import { env } from "../env/client.mjs";
 
 export interface HttpResponse<T> {
   code: number;
@@ -12,7 +12,8 @@ export interface HttpResponse<T> {
 // let axiosTimeOut = 60 * 1000;
 // axios.defaults.withCredentials = true;
 // const baseURL = "http://45.32.137.231:10089";
-const baseURL = "http://45.32.137.231:10089";
+const baseURL = env.NEXT_PUBLIC_JAVA_BACKEND;
+
 export const instance = axios.create({
   baseURL: baseURL,
   // timeout: axiosTimeOut,
