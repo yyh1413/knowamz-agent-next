@@ -26,7 +26,7 @@ import { useModels } from "../hooks/useModels";
 import type { GPTModelNames } from "../types";
 import Button from "../ui/button";
 import clsx from "clsx";
-import { saveSetting, getsetting, getUserInfo } from "../services/user";
+import { saveSetting, getsetting, getUserInfo, getSettingModel } from "../services/user";
 import { message } from "antd";
 import { handler } from "tailwindcss-radix";
 import { debounce, result } from 'lodash';
@@ -35,58 +35,58 @@ const SettingsPage = () => {
   const [t] = useTranslation("settings");
   const { settings, updateSettings, updateLangauge } = useSettings();
   const { session } = useAuth({ protectedRoute: true });
-  const { models, getModel } = useModels();
+  // const { models, getModel } = useModels();
   const [temperature, settemperature] = useState(0);
   const [loop, setLoop] = useState(0);
   const [maxloop, setMaxLoop] = useState(0);
   const [useinfo, setUseinfo] = useState<any>();
-  const [version, setVersion] = useState();
   const didMountRef = useRef(false);
 
   const [isApiKeyValid, setIsApiKeyValid] = useState<boolean | undefined>(undefined);
 
-  const validateApiKey = async () => {
-    try {
-      await axios.get("https://api.openai.com/v1/engines", {
-        headers: {
-          Authorization: `Bearer ${settings.customApiKey}`,
-        },
-      });
+  // const validateApiKey = async () => {
+  //   try {
+  //     await axios.get("https://api.openai.com/v1/engines", {
+  //       headers: {
+  //         Authorization: `Bearer ${settings.customApiKey}`,
+  //       },
+  //     });
 
-      setIsApiKeyValid(true);
-    } catch (error) {
-      setIsApiKeyValid(false);
-    }
-  };
+  //     setIsApiKeyValid(true);
+  //   } catch (error) {
+  //     setIsApiKeyValid(false);
+  //   }
+  // };
 
   const disableAdvancedSettings = !session?.user;
-  const model = getModel(settings.customModelName) || {
-    name: settings.customModelName,
-    max_tokens: 2000,
-    has_access: true,
-  };
+  // const model = getModel(settings.customModelName) || {
+  //   name: settings.customModelName,
+  //   max_tokens: 2000,
+  //   has_access: true,
+  // };
+  const [models, setModels] = useState<any[]>([])
+  const [model, setModel] = useState<any>({ name: '' })
 
-  const updateModel = (model: LLMModel) => {
-    if (settings.maxTokens > model.max_tokens) {
-      updateSettings("maxTokens", model.max_tokens);
-    }
+  const updateModel = (model: any) => {
+    didMountRef.current = true;
+    setModel({ name: model.name });
 
-    updateSettings("customModelName", model.name as GPTModelNames);
   };
 
   async function init() {
-    const info = await getUserInfo();
-    if (info.code === 200) {
-      setUseinfo(info.data)
-    }
-    const res = await getsetting();
-    if (res.code === 200) {
-      settemperature(Number(res.data.temperature));
-      setLoop(res.data.loopNum);
-      setMaxLoop(res.data.maxloop);
-      setVersion(res.data.gptVersion);
-    } else {
-      message.error(res.msg)
+    try {
+      const [info, m, res] = await Promise.all([getUserInfo(), getSettingModel(), getsetting()])
+      if (info.code === 200 && m.code === 200 && res.code === 200) {
+        setUseinfo(info.data)
+        setModels(m.data)
+        settemperature(Number(res.data.temperature));
+        setLoop(res.data.loopNum);
+        setMaxLoop(res.data.maxLoopNum);
+        setModel({ name: res.data.gptVersion })
+      }
+    } catch (err) {
+      console.error(err)
+
     }
   }
   useEffect(() => {
@@ -94,20 +94,25 @@ const SettingsPage = () => {
   }, [])
 
 
-  const handleSetLoop = useRef(debounce(async (l, t) => {
+  const handleSetLoop = useRef(debounce(async (l, m, t) => {
     const res = await saveSetting(
       {
-        "gptVersion": "3.5", //当前GPT版本，与循环次数二选一
+        "gptVersion": m, //当前GPT版本，与循环次数二选一
         "loopNum": l, //循环次数，与当前GPT版本二选一
         "temperature": String(t)//温度，购买高级套餐才可修改
       }
     )
-
-  }, 1500))
+    if (res.code !== 200) {
+      message.error(res.msg)
+    }
+  }, 1000))
 
   useEffect(() => {
-    if (didMountRef.current) handleSetLoop.current(loop, useinfo?.vipName === 'Platinum' ? temperature : '');
-  }, [loop, temperature])
+    if (didMountRef.current) {
+      const m = models.find(v => v.name === model.name)?.value;
+      handleSetLoop.current(loop, m, useinfo?.vipName === 'Platinum' ? temperature : '');
+    }
+  }, [loop, temperature, model])
 
 
   return (

@@ -26,6 +26,9 @@ const getUserInfo = (data?: string) => {
 const getVipPackage = (data: string) => {
   return http.get<any>("/api/agent/vipPackage/list?vipType=" + data);
 };
+const getSettingModel = () => {
+  return http.get<any[]>("/api/agent/setting/getGptModel");
+};
 
 const getDiscountPrice = (id: string, discountCode?: any) => {
   return http.get<any>(
@@ -56,6 +59,7 @@ const getsetting = () => {
 };
 
 export {
+  getSettingModel,
   getsetting,
   saveSetting,
   handlerlogout,

@@ -47,7 +47,7 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
           orderBy: { expires: "desc" },
         })
       ).sessionToken;
-      console.log(" session-------- ", session, user);
+      // console.log(" session-------- ", session, user);
 
       return session;
     },
