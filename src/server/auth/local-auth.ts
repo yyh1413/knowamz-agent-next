@@ -39,6 +39,13 @@ export const options = (
         clientId: serverEnv.GOOGLE_CLIENT_ID ?? "",
         clientSecret: serverEnv.GOOGLE_CLIENT_SECRET ?? "",
         allowDangerousEmailAccountLinking: true,
+        authorization: {
+          params: {
+            prompt: "consent",
+            access_type: "offline",
+            response_type: "code",
+          },
+        },
       }),
       Credentials({
         name: "Credentials",
