@@ -98,15 +98,18 @@ export const options = (
       },
     },
     jwt: {
-      encode: () => {
+      encode: (params) => {
         const cookie = getCookie("next-auth.session-token", {
           req: req,
           res: res,
         });
+        console.log("encode", params);
 
-        return cookieToString(cookie);
+        return "111111next-auth.session-token222222222222";
       },
-      decode: () => {
+      decode: (params) => {
+        console.log("decode", params);
+
         return null;
       },
     },
