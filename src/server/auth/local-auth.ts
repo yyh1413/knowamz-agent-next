@@ -105,7 +105,9 @@ export const options = (
       },
     },
     jwt: {
-      encode: () => {
+      encode: (e) => {
+        console.log('jwtencode',e);
+        
         const cookie = getCookie("next-auth.session-token", {
           req: req,
           res: res,
@@ -113,7 +115,9 @@ export const options = (
 
         return cookieToString(cookie);
       },
-      decode: () => {
+      decode: (e) => {
+        console.log('jwtdecode',e);
+
         return null;
       },
     },
