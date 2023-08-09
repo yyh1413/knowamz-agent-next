@@ -38,16 +38,16 @@ const AuthItem: FC<{
     }
   }, [showDialog])
   async function handlerSignout() {
-    const res = await handlerlogout();
-    if (res.code === 200) {
+    // const res = await handlerlogout();
+    // if (res.code === 200) {
       localStorage.removeItem('next-auth.session-token')
       signOut()
         .then(() => setShowDialog(false))
         .catch(console.error)
         .finally(console.log);
-    } else {
-      message.error(res.msg)
-    }
+    // } else {
+    //   message.error(res.msg)
+    // }
 
   }
   return (

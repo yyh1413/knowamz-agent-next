@@ -8,6 +8,8 @@ import { v4 } from "uuid";
 import type { IncomingMessage, ServerResponse } from "http";
 import type { Adapter } from "next-auth/adapters";
 import { login } from "../../services/user";
+import GoogleProvider from "next-auth/providers/google";
+import { serverEnv } from "../../env/schema.mjs";
 
 const monthFromNow = () => {
   const now = new Date(Date.now());
@@ -33,6 +35,11 @@ export const options = (
   return {
     adapter,
     providers: [
+      GoogleProvider({
+        clientId: serverEnv.GOOGLE_CLIENT_ID ?? "",
+        clientSecret: serverEnv.GOOGLE_CLIENT_SECRET ?? "",
+        allowDangerousEmailAccountLinking: true,
+      }),
       Credentials({
         name: "Credentials",
         // The credentials is used to generate a suitable form on the sign in page.
@@ -69,23 +76,10 @@ export const options = (
       // Fallback to base url if provided url is not a subdirectory
       redirect: (params: { url: string; baseUrl: string }) =>
         params.url.startsWith(params.baseUrl) ? params.url : params.baseUrl,
-      // session({ session, user, token }) {
-      //   // session.accessToken = token.accessToken
-      //   console.log(" session-------- ", session, user, token);
+      signIn({ user, account, profile }) {
+        console.log("signIn", user, account, profile);
 
-      //   session.user.id = user.id;
-      //   session.user.name = user.name;
-      //   session.user.email = user.email;
-      //   return session;
-      // },
-      signIn({ user }) {
         if (user) {
-          // const session = await adapter.createSession({
-          //   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          //   sessionToken: v4(),
-          //   userId: user.id,
-          //   expires: monthFromNow(),
-          // });
           const session = {
             // @ts-ignore
             sessionToken: user?.data,

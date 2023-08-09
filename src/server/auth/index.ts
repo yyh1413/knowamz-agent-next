@@ -61,8 +61,8 @@ export const authOptions = (
   //   env.NEXT_PUBLIC_VERCEL_ENV === "development"
   //     ? devOptions(commonOptions.adapter, req, res)
   //     : prodOptions;
-  // const options = devOptions(commonOptions.adapter, req, res);
-  const options =prodOptions;
+  const options = devOptions(commonOptions.adapter, req, res);
+  // const options =prodOptions;
 
   return merge(commonOptions, options) as AuthOptions;
 };
