@@ -35,7 +35,7 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
     // },
   },
   callbacks: {
-    async session({ session, user }) {
+    async session({ session, user, token }) {
       if (session.user) session.user.id = user.id;
 
       session.user.id = user.id;
@@ -47,7 +47,7 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
           orderBy: { expires: "desc" },
         })
       ).sessionToken;
-      // console.log(" session-------- ", session, user);
+      console.log(" session-------- ", session, user, token);
 
       return session;
     },
