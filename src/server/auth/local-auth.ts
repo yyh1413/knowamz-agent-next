@@ -106,17 +106,15 @@ export const options = (
     },
     jwt: {
       encode: (e) => {
-        console.log('jwtencode',e);
-        
         const cookie = getCookie("next-auth.session-token", {
           req: req,
           res: res,
         });
-
-        return cookieToString(cookie);
+        console.log("jwtencode", e, cookieToString(cookie));
+        return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ';
       },
       decode: (e) => {
-        console.log('jwtdecode',e);
+        console.log("jwtdecode", e);
 
         return null;
       },
