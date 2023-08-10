@@ -70,8 +70,6 @@ const Home: NextPage = () => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     nameInputRef?.current?.focus();
-    console.log('session', session);
-    localStorage.setItem("next-auth.session-token", session?.accessToken || '');
   }, []);
 
   const setAgentRun = (newName: string, newGoal: string) => {
@@ -135,6 +133,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (session !== null) {
+      console.log('session', session);
+      localStorage.setItem("next-auth.session-token", session?.accessToken || '');
       const agentData = getAgentDataFromLocalStorage();
 
       if (agentData) {
