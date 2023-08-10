@@ -130,8 +130,6 @@ const InsecureSignin = () => {
           name: info.data?.name,
           id: info.data?.id,
         }
-        localStorage.setItem("next-auth.session-token", res.data);
-
         signIn("credentials", { callbackUrl: "/", ...infop, data: res.data }).catch(console.error);
       }
     }

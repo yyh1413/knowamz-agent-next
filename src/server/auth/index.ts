@@ -35,6 +35,11 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
     // },
   },
   callbacks: {
+    async jwt({ token, user, account, profile, isNewUser }) {
+      console.log("jwt", token, user, account, profile, isNewUser);
+
+      return token;
+    },
     async session({ session, user, token }) {
       if (session.user) session.user.id = user.id;
 
@@ -48,6 +53,9 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
         })
       ).sessionToken;
       console.log(" session-------- ", session, user, token);
+      if (!localStorage.getItem("ext-auth.session-token")) {
+        localStorage.setItem("next-auth.session-token", session.accessToken);
+      }
 
       return session;
     },

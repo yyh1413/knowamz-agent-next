@@ -104,20 +104,21 @@ export const options = (
         return true;
       },
     },
-    jwt: {
-      encode: (e) => {
-        const cookie = getCookie("next-auth.session-token", {
-          req: req,
-          res: res,
-        });
-        console.log("jwtencode", e, cookieToString(cookie));
-        return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ';
-      },
-      decode: (e) => {
-        console.log("jwtdecode", e);
+    // jwt: {
+      
+    //   encode: (e) => {
+    //     const cookie = getCookie("next-auth.session-token", {
+    //       req: req,
+    //       res: res,
+    //     });
+    //     console.log("jwtencode", e, cookieToString(cookie));
+    //     return cookieToString(cookie);
+    //   },
+    //   decode: (e) => {
+    //     console.log("jwtdecode", e);
 
-        return null;
-      },
-    },
+    //     return null;
+    //   },
+    // },
   };
 };
