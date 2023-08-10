@@ -53,10 +53,6 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
         })
       ).sessionToken;
       console.log(" session-------- ", session, user, token);
-      if (!localStorage.getItem("ext-auth.session-token")) {
-        localStorage.setItem("next-auth.session-token", session.accessToken);
-      }
-
       return session;
     },
   },
