@@ -162,7 +162,7 @@ const Home: NextPage = () => {
 
   return (
     <DashboardLayout rightSidebar={TaskSidebar}>
-      <HelpDialog />
+      {/* <HelpDialog /> */}
       <ToolsDialog show={showToolsDialog} close={() => setShowToolsDialog(false)} />
 
       <SignInDialog show={showSignInDialog} close={() => setShowSignInDialog(false)} />
@@ -249,7 +249,7 @@ const Home: NextPage = () => {
                       disabled={agent != null}
                       onChange={(e) => setNameInput(e.target.value)}
                       onKeyDown={(e) => handleKeyPress(e)}
-                      placeholder="AgentGPT"
+                      placeholder="Knowamz"
                       type="text"
                     />
                     <Button

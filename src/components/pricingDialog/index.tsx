@@ -35,8 +35,8 @@ const Index = ({ row }: IProps) => {
   return (
     <>
       <div className="text-[12px] text-[#A3A3A3] mb-[20px]">
-        Successful payment indicates that you have read and accepted the
-        <span className="text-[#3f66ed]">《User Agreement》</span>
+        Successful payment indicates that you have read and accepted the User Agreement
+        {/* <span className="text-[#3f66ed]">《User Agreement》</span> */}
       </div>
       <hr />
       <div className="py-5 flex ">

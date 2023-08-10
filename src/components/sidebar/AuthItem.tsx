@@ -38,16 +38,16 @@ const AuthItem: FC<{
     }
   }, [showDialog])
   async function handlerSignout() {
-    // const res = await handlerlogout();
-    // if (res.code === 200) {
+    const res = await handlerlogout();
+    if (res.code === 200) {
       localStorage.removeItem('next-auth.session-token')
-      signOut()
-        .then(() => setShowDialog(false))
-        .catch(console.error)
-        .finally(console.log);
-    // } else {
-    //   message.error(res.msg)
-    // }
+    } else {
+      message.error(res.msg)
+    }
+    signOut()
+      .then(() => setShowDialog(false))
+      .catch(console.error)
+      .finally(console.log);
 
   }
   return (
@@ -113,7 +113,7 @@ const AuthItem: FC<{
           <p className="text-sm text-gray-600 font-bold ">{user?.name}</p>
           <p className="text-sm text-gray-400">{user?.email}</p>
           <div className="bg-[#9BA7BC] text-white rounded-lg	flex flex-col p-3  mt-3">
-            {info?.id ?
+            {info?.vipId ?
               <>
                 <div className="text-1xl text-left	font-bold	">{info?.vipName} <span>· VIP</span></div>
                 <div className="text-sm text-left	">VIP expires on <span>{info?.vipValidPeriod}</span>  </div>
@@ -127,14 +127,14 @@ const AuthItem: FC<{
               <span className="	font-semibold">GPT-3.5 usage times</span>
               <span>{info?.list[0]?.dailyRemainUseNum || 0}/{info?.list[0]?.dailyUseNum || 0}</span>
             </div>
-            <Progress percent={info?.id ? info?.list[0]?.dailyRemainUseNum / info?.list[0]?.dailyUseNum * 100 : 0} status="exception" showInfo={false} />
+            <Progress percent={info?.vipId ? info?.list[0]?.dailyRemainUseNum / info?.list[0]?.dailyUseNum * 100 : 0} status="exception" showInfo={false} />
           </div>
           <div className="text-sm">
             <div className="flex justify-between ">
               <span className="	font-semibold">GPT-4 usage times</span>
               <span>{info?.list[1]?.dailyRemainUseNum || 0}/{info?.list[1]?.dailyUseNum || 0}</span>
             </div>
-            <Progress percent={info?.id ? info?.list[1]?.dailyRemainUseNum / info?.list[1]?.dailyUseNum * 100 : 0} status="exception"
+            <Progress percent={info?.vipId ? info?.list[1]?.dailyRemainUseNum / info?.list[1]?.dailyUseNum * 100 : 0} status="exception"
               showInfo={false} />
           </div>
           <div className="text-sm ">
@@ -142,7 +142,7 @@ const AuthItem: FC<{
               <span className="	font-semibold">Number of cycles</span>
               <span>{info?.loopNum || 0}</span>
             </div>
-            <Progress percent={info?.id ? 100 : 0} status="exception" showInfo={false} />
+            <Progress percent={info?.vipId ? 100 : 0} status="exception" showInfo={false} />
           </div>
 
         </Dialog>
