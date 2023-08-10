@@ -70,6 +70,8 @@ const Home: NextPage = () => {
   const nameInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     nameInputRef?.current?.focus();
+    console.log('session', session);
+    localStorage.setItem("next-auth.session-token", session?.accessToken || '');
   }, []);
 
   const setAgentRun = (newName: string, newGoal: string) => {
@@ -193,17 +195,17 @@ const Home: NextPage = () => {
               chatControls={
                 agent
                   ? {
-                      value: chatInput,
-                      onChange: (value: string) => {
-                        setChatInput(value);
-                      },
-                      handleChat: async () => {
-                        const currentInput = chatInput;
-                        setChatInput("");
-                        await agent?.chat(currentInput);
-                      },
-                      loading: tasks.length == 0 || chatInput === "",
-                    }
+                    value: chatInput,
+                    onChange: (value: string) => {
+                      setChatInput(value);
+                    },
+                    handleChat: async () => {
+                      const currentInput = chatInput;
+                      setChatInput("");
+                      await agent?.chat(currentInput);
+                    },
+                    loading: tasks.length == 0 || chatInput === "",
+                  }
                   : undefined
               }
             >

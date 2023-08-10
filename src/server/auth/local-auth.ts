@@ -86,7 +86,7 @@ export const options = (
       signIn({ user, account, profile }) {
         console.log("signIn", user, account, profile);
 
-        if (user) {
+        if (user && account?.provider !== "Google") {
           const session = {
             // @ts-ignore
             sessionToken: user?.data,
@@ -99,13 +99,11 @@ export const options = (
             req: req,
             res: res,
           });
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         }
         return true;
       },
     },
     // jwt: {
-      
     //   encode: (e) => {
     //     const cookie = getCookie("next-auth.session-token", {
     //       req: req,
