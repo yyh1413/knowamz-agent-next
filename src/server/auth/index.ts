@@ -35,11 +35,11 @@ const commonOptions: Partial<AuthOptions> & { adapter: Adapter } = {
     // },
   },
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser }) {
-      console.log("jwt", token, user, account, profile, isNewUser);
+    // async jwt({ token, user, account, profile, isNewUser }) {
+    //   console.log("jwt", token, user, account, profile, isNewUser);
 
-      return token;
-    },
+    //   return token;
+    // },
     async session({ session, user, token }) {
       if (session.user) session.user.id = user.id;
 
