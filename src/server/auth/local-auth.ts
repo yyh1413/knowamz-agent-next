@@ -65,7 +65,7 @@ export const options = (
 
           // if (res.code === 200) {
           return {
-            id: credentials.id,
+            id: credentials?.id ||'',
             name: credentials?.name,
             email: credentials?.email,
             data: credentials?.data,

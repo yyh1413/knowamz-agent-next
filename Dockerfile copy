@@ -18,8 +18,6 @@ RUN npm i @prisma/client@latest
 # 将项目文件复制到工作目录
 COPY . .
 
-RUN npx prisma generate  
-
 # 暴露 Next.js 应用的默认端口
 EXPOSE 3010
 
