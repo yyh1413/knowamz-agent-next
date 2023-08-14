@@ -117,7 +117,18 @@ const Home: NextPage = () => {
     confirm({
       title: 'tips',
       content: 'The current operation will consume the remaining usage times of the day. Do you want to continue?',
-      onOk() {
+      async onOk() {
+        const res = await getUserInfo()
+        if (res.code == 200) {
+          const version = setting?.gptVersion === 'gpt-4' ? '4' : setting?.gptVersion === 'gpt-3.5-turbo-16k' ? '3.5-16k' : '3.5'
+          const item = res.data?.list.find((v: { gptVersion: string; }) => v.gptVersion === version)
+
+          if (item.dailyRemainUseNum === 0) {
+            message.error(`Out of ${setting?.gptVersion} usage times`)
+            return;
+          }
+
+        }
         if (session === null) {
           storeAgentDataInLocalStorage(name, goal);
           setShowSignInDialog(true);

@@ -4,9 +4,9 @@ import type { Session } from "next-auth";
 
 export interface ApiModelSettings {
   language: string;
-  model: GPTModelNames;
-  temperature: number;
-  max_tokens: number;
+  // model?: GPTModelNames;
+  // temperature?: number;
+  // max_tokens?: number;
 }
 
 export const toApiModelSettings = (modelSettings: ModelSettings, session?: Session) => {
@@ -14,10 +14,10 @@ export const toApiModelSettings = (modelSettings: ModelSettings, session?: Sessi
 
   return {
     language: modelSettings.language.name,
-    model: allowCustomization ? modelSettings.customModelName : "gpt-3.5-turbo",
-    temperature: modelSettings.customTemperature,
-    max_tokens: allowCustomization ? modelSettings.maxTokens : 500,
-    custom_api_key: modelSettings.customApiKey,
+    // model: allowCustomization ? modelSettings.customModelName : "gpt-3.5-turbo",
+    // temperature: modelSettings.customTemperature,
+    // max_tokens: allowCustomization ? modelSettings.maxTokens : 500,
+    // custom_api_key: modelSettings.customApiKey,
   };
 };
 
