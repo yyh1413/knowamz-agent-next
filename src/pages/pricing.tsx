@@ -126,7 +126,8 @@ const Pricing = () => {
                       <div className={textClass}>
                         <Image src="/duihao.svg" width="16" height="16" alt="Reworkd AI" />
                         {/* {v.packageDataField.maxTokenNum}  maximum tokens */}
-                        {i == 2 ? 8000 : i == 1 ? 16000 : 4000}  maximum tokens
+                        {/* {i == 2 ? 8000 : i == 1 ? 16000 : 4000}  maximum tokens */}
+                        maximum tokens:gpt-3.5-Turbo 4000，gpt-3.5-Turbo-16k 16000，gpt-4 8000
                       </div>
                       <div className={textClass}>
                         {v.packageDataField.isEnableSearch === 'Y' ? <Image src="/duihao.svg" width="16" height="16" alt="Reworkd AI" />
