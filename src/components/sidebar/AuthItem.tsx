@@ -124,14 +124,14 @@ const AuthItem: FC<{
           </div>
           <div className="text-sm mt-3">
             <div className="flex justify-between ">
-              <span className="	font-semibold">GPT-3.5 usage times</span>
+              <span className="	font-semibold">GPT-3.5 usage times(per day)</span>
               <span>{info?.list[0]?.dailyRemainUseNum || 0}/{info?.list[0]?.dailyUseNum || 0}</span>
             </div>
             <Progress percent={info?.vipId ? info?.list[0]?.dailyRemainUseNum / info?.list[0]?.dailyUseNum * 100 : 0} status="exception" showInfo={false} />
           </div>
           <div className="text-sm">
             <div className="flex justify-between ">
-              <span className="	font-semibold">GPT-4 usage times</span>
+              <span className="	font-semibold">GPT-4 usage times(per day)</span>
               <span>{info?.list[1]?.dailyRemainUseNum || 0}/{info?.list[1]?.dailyUseNum || 0}</span>
             </div>
             <Progress percent={info?.vipId ? info?.list[1]?.dailyRemainUseNum / info?.list[1]?.dailyUseNum * 100 : 0} status="exception"

@@ -152,6 +152,7 @@ const InsecureSignup = (props: { type: IText }) => {
 
     if (res.code === 200) {
       void message.success(props.type === '0' ? 'login was successful' : 'Successfully modified password')
+      signIn();
     } else {
       setValidate(res.msg)
       return;

@@ -8,19 +8,47 @@ import {
   FaPlus, FaMinus
 } from "react-icons/fa";
 import Image from "next/image";
-import { getVipPackage } from "../services/user";
-import { Modal } from 'antd';
+import { getVipPackage, getUserInfo } from "../services/user";
+import { message, Modal } from 'antd';
 import { type GetStaticProps, type NextPage } from "next";
 import { languages } from "../utils/languages";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18NextConfig from "../../next-i18next.config.js";
+import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "next/router";
+
+//'success' | 'cancel'
 const Pricing = () => {
+  const { query } = useRouter();
+
   const [active, setActive] = useState(true);
   const [warn, setWarn] = useState(template);
   const [row, setRow] = useState<any>();
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const [vipList, setVipList] = useState<any[]>();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // useAuth({ protectedRoute: true });
+
+  const [type, setType] = useState<string>('')
+  const [isTypeModalOpen, setIsTypeModalOpen] = useState(false)
+  const [info, setInfo] = useState<any>();
+
+  async function init() {
+    const res = await getUserInfo()
+    if (res.code === 200) {
+      setInfo(res.data)
+    } else {
+      message.error(res.msg)
+    }
+  }
+  useEffect(() => {
+    console.log(query);
+    if (query?.payStatus) {
+      setIsTypeModalOpen(true)
+    }
+    void init();
+    setType((query?.payStatus as string) || '')
+  }, [query]);
 
   function handleClickOpen(i: number) {
     const warnNew = JSON.parse(JSON.stringify(warn)) as typeof template
@@ -35,10 +63,14 @@ const Pricing = () => {
     const res = await getVipPackage(active ? "Month" : "Year");
     if (res.code === 200) {
       setVipList(res.data)
-
     }
   }
   function handlePay(row: any) {
+    if (info?.vipId) {
+      message.error('Upgrade package not currently supported!')
+
+      return
+    }
     setRow(row)
     setIsModalOpen(true)
   }
@@ -147,7 +179,35 @@ const Pricing = () => {
         onCancel={() => setIsModalOpen(false)} destroyOnClose footer={null}
         width='630px'>
         <PricingDialog row={row} />
-
+      </Modal>
+      <Modal open={isTypeModalOpen}
+        onCancel={() => setIsTypeModalOpen(false)} destroyOnClose footer={null}
+      >
+        <div className="flex justify-center items-center flex-col m-10">
+          {type === 'success' ?
+            <>
+              <Image
+                src="/zfcg.png"
+                width="200"
+                height="200"
+                alt="Reworkd AI"
+              />
+              <div className="text-red-500 text-[26px] font-bold my-[20px]">Payment successful!</div>
+              <div className="text-gray-500 text-[16px]">Congratulations on becoming a member of Knowamz</div>
+            </>
+            :
+            <>
+              <Image
+                src="/zfsb.png"
+                width="200"
+                height="200"
+                alt="Reworkd AI"
+              />
+              <div className="text-red-500 text-[26px] font-bold my-[20px]">Payment failed！</div>
+              <div className="text-gray-500 text-[16px]">Please make a new payment</div>
+            </>
+          }
+        </div>
       </Modal>
     </DashboardLayout >
   );

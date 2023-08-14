@@ -83,6 +83,9 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
             if (router.route == link.href) {
               return null;
             }
+            if ('/pricing' == link.href && status !== "authenticated") {
+              return null;
+            }
 
             return (
               <LinkItem

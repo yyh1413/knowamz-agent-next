@@ -33,7 +33,7 @@ const Code = (props: IProps) => {
   };
   return (
     <button className={styles.code} onClick={sendVerificationCode} disabled={isCounting} >
-      {isCounting ? `${seconds}s` : 'Code'}
+      {isCounting ? `${seconds}s` : 'Send'}
 
     </button>
   );

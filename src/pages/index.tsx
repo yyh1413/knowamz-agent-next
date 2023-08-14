@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { type GetStaticProps, type NextPage } from "next";
 import Button from "../components/Button";
-import { FaCog, FaRobot, FaStar } from "react-icons/fa";
+import { FaCog, FaRobot, FaStar, FaExclamation } from "react-icons/fa";
 import AutonomousAgent from "../services/agent/autonomous-agent";
 import HelpDialog from "../components/dialog/HelpDialog";
 import { useAuth } from "../hooks/useAuth";
@@ -41,6 +41,11 @@ import AgentControls from "../components/console/AgentControls";
 import { ChatMessage } from "../components/console/ChatMessage";
 import clsx from "clsx";
 import TaskSidebar from "../components/drawer/TaskSidebar";
+import { getUserInfo, getsetting } from "../services/user";
+import { message } from "antd";
+import { Modal } from 'antd';
+
+const { confirm } = Modal;
 
 const Home: NextPage = () => {
   const { t } = useTranslation("indexPage");
@@ -62,13 +67,29 @@ const Home: NextPage = () => {
   const setGoalInput = useAgentInputStore.use.setGoalInput();
   const [chatInput, setChatInput] = React.useState("");
   const { settings } = useSettings();
+  const [info, setInfo] = useState<any>();
+  const [setting, setSetting] = useState<any>();
 
   const [showSignInDialog, setShowSignInDialog] = React.useState(false);
   const [showToolsDialog, setShowToolsDialog] = React.useState(false);
   const agentUtils = useAgent();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
+  async function init() {
+    const [res, se] = await Promise.all([getUserInfo(), getsetting()])
+    if (res.code === 200) {
+      setInfo(res.data)
+    } else {
+      message.error(res.msg)
+    }
+    if (se.code === 200) {
+      setSetting(se.data)
+    } else {
+      message.error(se.msg)
+    }
+  }
   useEffect(() => {
+    init();
     nameInputRef?.current?.focus();
   }, []);
 
@@ -77,11 +98,12 @@ const Home: NextPage = () => {
     setGoalInput(newGoal);
     handlePlay(newName, newGoal);
   };
+  console.log('disableStartAgent', info);
 
   const disableStartAgent =
-    (agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
-    isEmptyOrBlank(nameInput) ||
-    isEmptyOrBlank(goalInput);
+    ((agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
+      isEmptyOrBlank(nameInput) ||
+      isEmptyOrBlank(goalInput));
 
   const handlePlay = (name: string, goal: string) => {
     if (agentLifecycle === "stopped") handleRestart();
@@ -90,35 +112,42 @@ const Home: NextPage = () => {
   };
 
   const handleNewAgent = (name: string, goal: string) => {
-    if (session === null) {
-      storeAgentDataInLocalStorage(name, goal);
-      setShowSignInDialog(true);
-      return;
-    }
+    confirm({
+      title: 'tips',
+      content: 'The current operation will consume the remaining usage times of the day. Do you want to continue?',
+      onOk() {
+        if (session === null) {
+          storeAgentDataInLocalStorage(name, goal);
+          setShowSignInDialog(true);
+          return;
+        }
 
-    if (agent && agentLifecycle == "paused") {
-      agent?.run().catch(console.error);
-      return;
-    }
+        if (agent && agentLifecycle == "paused") {
+          agent?.run().catch(console.error);
+          return;
+        }
 
-    const model = new DefaultAgentRunModel(name.trim(), goal.trim());
-    const messageService = new MessageService(addMessage);
-    const agentApi = new AgentApi({
-      model_settings: toApiModelSettings(settings, session),
-      name: name,
-      goal: goal,
-      session,
-      agentUtils: agentUtils,
+        const model = new DefaultAgentRunModel(name.trim(), goal.trim());
+        const messageService = new MessageService(addMessage);
+        const agentApi = new AgentApi({
+          model_settings: toApiModelSettings(settings, session),
+          name: name,
+          goal: goal,
+          session,
+          agentUtils: agentUtils,
+        });
+        const newAgent = new AutonomousAgent(
+          model,
+          messageService,
+          settings,
+          agentApi,
+          session ?? undefined
+        );
+        setAgent(newAgent);
+        newAgent?.run().then(console.log).catch(console.error);
+      },
+
     });
-    const newAgent = new AutonomousAgent(
-      model,
-      messageService,
-      settings,
-      agentApi,
-      session ?? undefined
-    );
-    setAgent(newAgent);
-    newAgent?.run().then(console.log).catch(console.error);
   };
 
   const storeAgentDataInLocalStorage = (name: string, goal: string) => {
@@ -191,7 +220,7 @@ const Home: NextPage = () => {
           <Expand className="flex w-full flex-grow overflow-hidden">
             <ChatWindow
               messages={messages}
-              title={<ChatWindowTitle model={settings.customModelName} />}
+              title={<ChatWindowTitle model={setting?.gptVersion} />}
               chatControls={
                 agent
                   ? {
@@ -278,13 +307,13 @@ const Home: NextPage = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-            <AgentControls
+            {!!info?.vipId && <AgentControls
               disablePlay={disableStartAgent}
               lifecycle={agentLifecycle}
               handlePlay={() => handlePlay(nameInput, goalInput)}
               handlePause={() => agent?.pauseAgent()}
               handleStop={() => agent?.stopAgent()}
-            />
+            />}
           </FadeIn>
         </div>
       </div>
