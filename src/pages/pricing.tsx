@@ -68,7 +68,6 @@ const Pricing = () => {
   function handlePay(row: any) {
     if (info?.vipId) {
       message.error('Upgrade package not currently supported!')
-
       return
     }
     setRow(row)
@@ -100,7 +99,7 @@ const Pricing = () => {
             </div>
             <div className="flex flex-col items-center justify-center gap-3 font-mono text-white md:flex-row w-11/12 mt-4 mb-4">
               {
-                vipList && vipList?.map(v => (
+                vipList && vipList?.map((v, i) => (
                   <div key={v.vipName} className="md:w-[calc(100%/3)] max-w-[calc(100%-1rem)] 
                   border p-4 rounded-md bg-black w-72 border-2 flex flex-col border-white/30  hover:border-[#1E88E5]">
                     <div className="mb-1 flex items-center gap-2"><h2 className="flex-grow text-xl font-semibold">{v.vipName}</h2></div>
@@ -126,7 +125,9 @@ const Pricing = () => {
                         {v.packageDataField.loopNum} Loops per Knowamz</div>
                       <div className={textClass}>
                         <Image src="/duihao.svg" width="16" height="16" alt="Reworkd AI" />
-                        {v.packageDataField.maxTokenNum}  maximum tokens</div>
+                        {/* {v.packageDataField.maxTokenNum}  maximum tokens */}
+                        {i == 2 ? 8000 : i == 1 ? 16000 : 4000}  maximum tokens
+                      </div>
                       <div className={textClass}>
                         {v.packageDataField.isEnableSearch === 'Y' ? <Image src="/duihao.svg" width="16" height="16" alt="Reworkd AI" />
                           : <Image src="/cuowu.svg" width="16" height="16" alt="Reworkd AI" />}

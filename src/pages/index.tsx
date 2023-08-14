@@ -89,7 +89,7 @@ const Home: NextPage = () => {
     }
   }
   useEffect(() => {
-    init();
+
     nameInputRef?.current?.focus();
   }, []);
 
@@ -98,7 +98,6 @@ const Home: NextPage = () => {
     setGoalInput(newGoal);
     handlePlay(newName, newGoal);
   };
-  console.log('disableStartAgent', info);
 
   const disableStartAgent =
     ((agent !== null && !["paused", "stopped"].includes(agentLifecycle)) ||
@@ -112,6 +111,9 @@ const Home: NextPage = () => {
   };
 
   const handleNewAgent = (name: string, goal: string) => {
+    if (!info?.vipId) {
+      return
+    }
     confirm({
       title: 'tips',
       content: 'The current operation will consume the remaining usage times of the day. Do you want to continue?',
@@ -162,7 +164,6 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (session !== null) {
-      console.log('session', session);
       localStorage.setItem("next-auth.session-token", session?.accessToken || '');
       const agentData = getAgentDataFromLocalStorage();
 
@@ -171,6 +172,7 @@ const Home: NextPage = () => {
         setGoalInput(agentData.goal);
         localStorage.removeItem("agentData");
       }
+      init();
     }
   }, [session]);
 

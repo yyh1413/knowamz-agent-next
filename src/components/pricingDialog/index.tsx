@@ -29,7 +29,7 @@ const Index = ({ row }: IProps) => {
     // document.createElement('form')
     const res = await v2pay(param);
     console.log(res);
-    window.open(res.data);
+    window.location.href = res.data;
 
   }
   return (
