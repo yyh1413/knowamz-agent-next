@@ -86,7 +86,9 @@ export class MessageService {
     else if (axios.isAxiosError(e) && e.message == "Network Error") {
       message = "Error attempting to connect to the server.";
     } else if (axios.isAxiosError(e)) {
-      const data = (e.response?.data as object) || {};
+      const data: any = (e.response?.data as object) || {};
+      console.log("e.response", e.response);
+
       switch (e.response?.status) {
         case 409:
           message = isPlatformError(data)
@@ -112,6 +114,10 @@ export class MessageService {
           break;
         case 404:
           message = "ERROR_OPENAI_API_KEY_NO_GPT4";
+        case 500:
+          if (data?.code === 429) {
+            return this.sendMessage({ type: "error", value: data?.detail });
+          }
           break;
         default:
           message = "ERROR_ACCESSING_OPENAI_API_KEY";

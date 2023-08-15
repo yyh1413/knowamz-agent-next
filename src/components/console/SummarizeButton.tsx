@@ -12,7 +12,7 @@ const Summarize = () => {
     .filter((task) => task.status == "completed" && task.result !== "");
   const summarized = useAgentStore.use.summarized();
   const setSummarized = useAgentStore.use.setSummarized();
-
+  const [dis, setdis] = React.useState(false)
   if (!agent || lifecycle !== "stopped" || tasksWithResults.length < 1 || summarized) return null;
 
   return (
@@ -25,8 +25,10 @@ const Summarize = () => {
       <span className="md:hidden">Test</span>
       <span className="hidden md:inline">Click here to summarize the conversation!</span>
       <Button
+        disabled={dis}
         className="ml-auto py-1  sm:py-1  md:py-1"
         onClick={async () => {
+          setdis(true);
           setSummarized(true);
           await agent?.summarize();
         }}
