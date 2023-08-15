@@ -31,6 +31,8 @@ const Summarize = () => {
           setdis(true);
           setSummarized(true);
           await agent?.summarize();
+          setdis(false);
+
         }}
       >
         Summarize
