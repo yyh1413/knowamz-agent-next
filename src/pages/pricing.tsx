@@ -180,7 +180,8 @@ const Pricing = () => {
       <Modal title={<div >VIP package purchase</div>} open={isModalOpen}
         onCancel={() => setIsModalOpen(false)} destroyOnClose footer={null}
         width='630px'>
-        <PricingDialog row={row} />
+        <PricingDialog row={row} setIsModalOpen={() => setIsModalOpen(false)}
+          setType={(e) => setType(e)} setIsTypeModalOpen={(e) => setIsTypeModalOpen(e)} />
       </Modal>
       <Modal open={isTypeModalOpen}
         onCancel={() => setIsTypeModalOpen(false)} destroyOnClose footer={null}

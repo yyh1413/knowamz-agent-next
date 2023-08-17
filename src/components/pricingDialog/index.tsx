@@ -5,9 +5,13 @@ import { getDiscountPrice, v2pay } from "../../services/user";
 
 interface IProps {
   row: any
+  setType: (e: any) => void;
+  setIsTypeModalOpen: (e: any) => void;
+  setIsModalOpen: () => void;
+
 }
 
-const Index = ({ row }: IProps) => {
+const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => {
   const [discount, setDiscount] = useState(false);
   const [paybut, setpaybut] = useState(false);
   const [money, setMoney] = useState(row.vipPrice);
@@ -26,10 +30,20 @@ const Index = ({ row }: IProps) => {
       vipId: row.id, discountCode: discountCode,
       payChannel: 'PayPal', currency: 'USD', totalAmount: money
     }
-    // document.createElement('form')
     const res = await v2pay(param);
     console.log(res);
-    window.location.href = res.data;
+    if (res.code !== 200) {
+      message.error(res.msg);
+      return;
+    }
+
+    if (res.data === 'success') {
+      setType('success');
+      setIsTypeModalOpen(true);
+      setIsModalOpen();
+    } else {
+      window.location.href = res.data;
+    }
 
   }
   return (
