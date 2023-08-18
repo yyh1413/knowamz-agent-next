@@ -76,12 +76,13 @@ const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => 
           </div>
           <hr className="my-4" />
 
-          <div className="text-sm flex-between w-full mt-2.5">
+          {/* <div className="text-sm flex-between w-full mt-2.5">
             <div className="flex items-center">
               <Checkbox >Automatic renewal</Checkbox>
               <Tag color="volcano">Enjoy 10% off</Tag>
 
-            </div></div>
+            </div>
+          </div> */}
 
 
           <div className="text-sm flex-between w-full mt-5 pb-2.5">
