@@ -21,7 +21,7 @@ COPY . .
 RUN npx prisma generate  
 
 # 暴露 Next.js 应用的默认端口
-EXPOSE 3010
+EXPOSE 3000
 
 # Start the application
 CMD ["npm", "run", "dev"]
