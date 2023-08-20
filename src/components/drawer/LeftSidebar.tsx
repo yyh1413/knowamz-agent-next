@@ -12,12 +12,21 @@ import { useTranslation } from "next-i18next";
 import { api } from "../../utils/api";
 import type { DisplayProps } from "./Sidebar";
 import Sidebar from "./Sidebar";
+import { useEffect, useState } from "react";
+import clsx from "clsx";
 
 const LeftSidebar = ({ show, setShow }: DisplayProps) => {
   const router = useRouter();
   const { session, signIn, signOut, status } = useAuth();
   const [t] = useTranslation("drawer");
-
+  const [wet, setwet] = useState('0');
+  useEffect(() => {
+    if (window) {
+      const windowHeight = window?.innerHeight || document?.documentElement?.clientHeight || document?.body?.clientHeight;
+      const num = windowHeight - 30 - 31 - 193;
+      setwet(num + 'px')
+    }
+  }, [])
   const { isLoading, data } = api.agent.getAll.useQuery(undefined, {
     enabled: status === "authenticated",
   });
@@ -43,7 +52,8 @@ const LeftSidebar = ({ show, setShow }: DisplayProps) => {
         </button>
       </div>
       <FadingHr className="my-2" />
-      <div className="mb-2 mr-2 flex-1 overflow-y-auto">
+      <div className={clsx("mb-2 mr-2  overflow-y-auto ")}
+        style={{ height: wet }}>
         {status === "unauthenticated" && (
           <div className="text-color-primary p-1 font-mono text-sm">
             <a className="link" onClick={() => void signIn()}>

@@ -96,11 +96,7 @@ function get<T>(url: string, data?: any, headers?: AxiosRequestHeaders) {
       })
       .then((res) => {
         const response = decorateResponseData(res);
-        if (response.code === 200) {
-          resolve(response);
-        } else {
-          reject(response);
-        }
+        resolve(response);
       })
       .catch((error) => {
         reject(error);

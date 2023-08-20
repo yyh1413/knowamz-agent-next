@@ -71,6 +71,9 @@ const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => 
                 enterButton="confirm"
                 size="small"
                 onSearch={handleDiscount}
+                onKeyUp={(event) =>
+                  event.target.value = event.target.value.replace(/[^\x00-\xff]/g, '')}
+
               />
             }
           </div>
