@@ -2,6 +2,7 @@
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosRequestHeaders } from "axios";
 import qs from "qs";
 import { env } from "../env/client.mjs";
+import { signIn } from "next-auth/react";
 
 export interface HttpResponse<T> {
   code: number;
@@ -68,6 +69,9 @@ function decorateResponseData<T extends { [index: string]: any }>(
   res: AxiosResponse<T>
 ): HttpResponse<T> {
   if (res.data.hasOwnProperty("code") && res.data.hasOwnProperty("msg")) {
+    if (res.data["code"] === 401) {
+      signIn();
+    }
     return {
       msg: res.data["msg"],
       code: res.data["code"],
