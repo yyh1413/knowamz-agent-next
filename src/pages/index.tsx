@@ -183,7 +183,9 @@ const Home: NextPage = () => {
         setGoalInput(agentData.goal);
         localStorage.removeItem("agentData");
       }
-      init();
+      if (localStorage.getItem('next-auth.session-token')) {
+        init();
+      }
     }
   }, [session]);
 
