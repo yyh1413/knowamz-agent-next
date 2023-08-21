@@ -17,6 +17,7 @@ const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => 
   const [money, setMoney] = useState(row.vipPrice);
   const [discountCode, setdiscountCode] = useState('')
   async function handleDiscount() {
+    if (!discountCode) return;
     const res = await getDiscountPrice(row.id, discountCode);
     if (res.code === 200) {
       setMoney(res.data?.discountPrice)
@@ -53,8 +54,9 @@ const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => 
         {/* <span className="text-[#3f66ed]">《User Agreement》</span> */}
       </div>
       <hr />
-      <div className="py-5 flex ">
-        <div className="bg-gray-500/10 border-2 border-gray-500/20 rounded-lg w-[50%] p-4 mr-[20px]">
+      <div className="py-5 md:flex  ">
+        <div className="bg-gray-500/10 border-2 border-gray-500/20 rounded-lg p-4 md:mr-[20px]
+        md:w-[calc(100%/2)] mb-[20px]  md:mb-[0px]">
           <Tag color="orange">{row?.vipType} payment package</Tag>
 
           <div className="text-sm font-500 flex-between w-full mt-2.5"><div>{row?.vipName}</div><div>US${row?.vipPrice}</div></div>
@@ -67,6 +69,7 @@ const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => 
               <Input.Search
                 value={discountCode}
                 onChange={(e) => setdiscountCode(e.target.value)}
+                onBlur={handleDiscount}
                 allowClear
                 enterButton="confirm"
                 size="small"
@@ -95,7 +98,7 @@ const Index = ({ row, setType, setIsTypeModalOpen, setIsModalOpen }: IProps) => 
             </div>
           </div>
         </div>
-        <div className=" w-[50%]">
+        <div className="   md:w-[calc(100%/2)] ">
           <div className="border-b-gray-100 w-full border-b pb-4">
             <div className=" flex-between">
               <Radio value={paybut} onChange={() => setpaybut(!paybut)}>
