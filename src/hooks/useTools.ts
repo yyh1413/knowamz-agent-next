@@ -48,9 +48,11 @@ const save = (key: string, data: object) => {
 export function useTools() {
   const { data: Session } = useSession();
   const setTools = useAgentStore.use.setTools();
-
   const queryClient = useQueryClient();
   const query = useQuery(["tools"], () => loadTools("tools"), {
+    enabled: false, // Query won't execute on component mount
+    // staleTime: 10000, // Cache is considered fresh for 60 seconds
+
     onSuccess: (data) => {
       updateActiveTools(data);
     },
@@ -73,6 +75,7 @@ export function useTools() {
   };
 
   return {
+    query:query,
     activeTools: query.data ?? [],
     setToolActive,
     isSuccess: query.isSuccess,

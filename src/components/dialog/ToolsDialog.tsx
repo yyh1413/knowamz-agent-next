@@ -9,8 +9,12 @@ export const ToolsDialog: React.FC<{
   show: boolean;
   close: () => void;
 }> = ({ show, close }) => {
-  const { activeTools, setToolActive, isSuccess } = useTools();
-
+  const { activeTools, setToolActive, isSuccess, query } = useTools();
+  React.useEffect(() => {
+    if (show) {
+      query.refetch(); // Manually trigger the query when needed
+    }
+  }, [show])
   return (
     <Dialog
       header={

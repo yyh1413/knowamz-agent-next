@@ -187,7 +187,7 @@ const Home: NextPage = () => {
         init();
       }
     }
-  }, [session]);
+  }, [session?.accessToken]);
 
   const handleRestart = () => {
     resetAllMessageSlices();
