@@ -19,7 +19,7 @@ RUN npm i @prisma/client@latest
 COPY . .
 
 #RUN npx prisma generate  
-RUN npm run build 
+# RUN npm run build 
 
 # 暴露 Next.js 应用的默认端口
 EXPOSE 3000
