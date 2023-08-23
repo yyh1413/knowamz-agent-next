@@ -19,7 +19,7 @@ COPY package*.json ./
 COPY . .
 
 #RUN npx prisma generate  
-RUN npx run build 
+RUN npm run build 
 
 # 暴露 Next.js 应用的默认端口
 EXPOSE 3000
