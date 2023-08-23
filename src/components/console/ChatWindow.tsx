@@ -13,7 +13,7 @@ import Button from "../Button";
 
 interface ChatControls {
   value: string;
-  onChange: (string) => void;
+  onChange: (string: any) => void;
   handleChat: () => Promise<void>;
   loading?: boolean;
 }
@@ -45,7 +45,7 @@ const ChatWindow = ({ messages, children, title, chatControls }: ChatWindowProps
 
     scrollRef.current.scrollTo({
       top: scrollRef.current.scrollHeight,
-      behavior: behaviour,
+      behavior: behaviour as any,
     });
   };
 

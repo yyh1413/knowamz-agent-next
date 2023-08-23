@@ -9,9 +9,9 @@ import type { AgentLifecycle } from "../services/agent/agent-run-model";
 interface AgentSlice {
   agent: AutonomousAgent | null;
   lifecycle: AgentLifecycle;
-  setLifecycle: (AgentLifecycle) => void;
+  setLifecycle: (AgentLifecycle:any) => void;
   summarized: boolean;
-  setSummarized: (boolean) => void;
+  setSummarized: (boolean:any) => void;
   isAgentThinking: boolean;
   setIsAgentThinking: (isThinking: boolean) => void;
   setAgent: (newAgent: AutonomousAgent | null) => void;

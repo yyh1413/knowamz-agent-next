@@ -15,7 +15,7 @@ export interface AgentRunModel {
 
   getLifecycle(): AgentLifecycle;
 
-  setLifecycle(AgentLifecycle): void;
+  setLifecycle(AgentLifecycle:any): void;
 
   getRemainingTasks(): Task[];
 

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Combobox } from "@headlessui/react";
 import { HiCheck, HiChevronDown } from "react-icons/hi2";
 
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 

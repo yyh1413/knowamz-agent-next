@@ -9,7 +9,7 @@ const Summarize = () => {
   const lifecycle = useAgentStore.use.lifecycle();
   const tasksWithResults = useTaskStore.use
     .tasks()
-    .filter((task) => task.status == "completed" && task.result !== "");
+    .filter((task:any) => task.status == "completed" && task.result !== "");
   const summarized = useAgentStore.use.summarized();
   const setSummarized = useAgentStore.use.setSummarized();
   const [dis, setdis] = React.useState(false)

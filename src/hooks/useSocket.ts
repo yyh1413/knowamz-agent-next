@@ -16,7 +16,7 @@ export default function useSocket<T extends z.Schema>(
     const pusher = new Pusher(app_key, { cluster: "mt1" });
     const channel = pusher.subscribe(channelName);
 
-    channel.bind("my-event", async (data) => {
+    channel.bind("my-event", async (data:any) => {
       const obj = (await eventSchema.parse(data)) as z.infer<T>;
       callback(obj);
     });

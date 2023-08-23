@@ -6,7 +6,7 @@ import { Modal } from 'antd';
 interface IProps {
   value?: string
 }
-const text = {
+const text:any = {
   'User Agreement': `
   
 If you check "I agree to the User Agreement" and use or accept any Knowamz through a registration program or any other means, it is deemed that you have read and agreed to this agreement, voluntarily accepting all the contents of this agreement, and the following terms and conditions constitute the agreement between you and Knowamz regarding the use license of Knowamz products ("this agreement"). Before registering or using the service, please read carefully to ensure that you fully understand the content of this agreement. If you have any questions about this agreement, you can consult Kua.ai's customer service.
@@ -213,7 +213,7 @@ const Agreement = (props: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState('');
 
-  const showModal = (flag) => {
+  const showModal = (flag:any) => {
     setTitle(flag === 0 ? 'Privacy Agreement' : 'User Agreement')
     setIsModalOpen(true);
   };

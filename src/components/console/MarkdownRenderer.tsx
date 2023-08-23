@@ -7,7 +7,7 @@ import "highlight.js/styles/default.css";
 import clsx from "clsx";
 import { FiClipboard } from "react-icons/fi";
 
-const MarkdownRenderer = ({ children }) => {
+const MarkdownRenderer = ({ children }: any) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -88,7 +88,7 @@ const CustomCodeBlock = ({ inline, className, children }: CustomCodeBlockProps) 
   return <code className={`hljs ${language}`}>{children}</code>;
 };
 
-const CustomLink = ({ children, href }) => {
+const CustomLink = ({ children, href }:any) => {
   return (
     <a
       className={clsx(

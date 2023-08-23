@@ -254,7 +254,7 @@ const Home: NextPage = () => {
               }
             >
               {messages.length === 0 && <ExampleAgents setAgentRun={setAgentRun} />}
-              {messages.map((message, index) => {
+              {messages.map((message:any, index:any) => {
                 return (
                   <FadeIn key={`${index}-${message.type}`}>
                     <ChatMessage message={message} />

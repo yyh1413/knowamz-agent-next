@@ -64,7 +64,7 @@ export class AgentApi {
   async analyzeTask(task: string): Promise<Analysis> {
     return await this.post<Analysis>("/api/agent/analyze", {
       task: task,
-      tool_names: useAgentStore.getState().tools.map((tool) => tool.name),
+      tool_names: useAgentStore.getState().tools.map((tool:any) => tool.name),
     });
   }
 

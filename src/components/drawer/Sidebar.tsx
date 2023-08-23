@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 export type DisplayProps = {
   show: boolean;
-  setShow: (boolean) => void;
+  setShow: (boolean: any) => void;
 };
 
 export type SidebarProps = DisplayProps & {
