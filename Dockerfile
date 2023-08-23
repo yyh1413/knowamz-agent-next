@@ -12,9 +12,9 @@ WORKDIR /next
 COPY package*.json ./
 
 # 安装项目依赖
-#RUN npm install
-#RUN npm i --save-dev prisma@latest                 
-#RUN npm i @prisma/client@latest    
+RUN npm install
+RUN npm i --save-dev prisma@latest                 
+RUN npm i @prisma/client@latest    
 # 将项目文件复制到工作目录
 COPY . .
 
