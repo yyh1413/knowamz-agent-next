@@ -18,11 +18,10 @@ RUN npm i @prisma/client@latest
 # 将项目文件复制到工作目录
 COPY . .
 
-#RUN npx prisma generate  
-# RUN npm run build 
+RUN npx prisma generate  
 
 # 暴露 Next.js 应用的默认端口
 EXPOSE 3000
 
 # Start the application
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "dev"]
