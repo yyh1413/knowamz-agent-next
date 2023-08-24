@@ -33,7 +33,7 @@ const Templates = () => {
   async function init() {
     const res = await getlisttemplate()
     if (res.code === 200) {
-      res.data.forEach((item) => {
+      res?.data?.forEach((item) => {
         item.category = item.templateType
         item.promptTemplate = item.purpose
       })

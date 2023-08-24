@@ -162,7 +162,7 @@ const Pricing = () => {
               <div className="font-semibold text-3xl	mb-[20px] pb-[20px] border-b-2  border-white/30 w-full">
                 Frequently asked questions
               </div>
-              {warn.map((v, i) => (
+              {warn?.map((v, i) => (
                 <div key={i} className="text-[20px] mb-[20px] pb-[20px] border-b-2  border-white/30  w-full">
                   <div className="flex items-center justify-between	font-semibold ">
                     <div>{v.title}</div>
@@ -220,7 +220,7 @@ export default Pricing;
 
 
 export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
-  const supportedLocales = languages.map((language) => language.code);
+  const supportedLocales = languages?.map((language) => language.code);
   const chosenLocale = supportedLocales.includes(locale) ? locale : "en";
 
   return {
