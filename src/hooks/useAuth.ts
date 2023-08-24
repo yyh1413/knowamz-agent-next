@@ -43,9 +43,9 @@ export function useAuth({ protectedRoute } = { protectedRoute: false }): Auth {
   return {
     signIn: handleSignIn,
     signOut: handleSignOut,
-    // status,
-    // session:session,
-    status: "authenticated",
-    session: sessiontext,
+    status,
+    session:session,
+    // status: "authenticated",
+    // session: sessiontext,
   };
 }
